@@ -1,7 +1,7 @@
 {%- from "manila/map.jinja" import api with context %}
 {%- if api.enabled %}
 include:
-  - apache
+#  - apache
   - manila._common
 
 manila_api_packages:
@@ -18,20 +18,20 @@ manila_install_database:
   - onlyif: /bin/false
   {%- endif %}
 
-manila_api_service_dead:
-  service.dead:
-  - name: manila-api
-  - enable: False
+#manila_api_service_dead:
+#  service.dead:
+#  - name: manila-api
+#  - enable: False
 
-manila_site_enabled:
-  apache_site.enabled:
-    - name: wsgi_manila
+#manila_site_enabled:
+#  apache_site.enabled:
+#    - name: wsgi_manila
 
-manila_apache_wsgi_config:
-  file.exists:
-    - name: /etc/apache2/sites-available/wsgi_manila.conf
-    - require:
-      - manila_site_enabled
+#manila_apache_wsgi_config:
+#  file.exists:
+#    - name: /etc/apache2/sites-available/wsgi_manila.conf
+#    - require:
+#      - manila_site_enabled
 
 {{ api.service }}:
   service.running:
@@ -39,14 +39,14 @@ manila_apache_wsgi_config:
     - watch:
       - file: /etc/manila/manila.conf
       - file: /etc/manila/policy.json
-      - manila_apache_wsgi_config
-      - manila_site_enabled
+#      - manila_apache_wsgi_config
+#      - manila_site_enabled
     {%- if grains.get('noservices') %}
     - onlyif: /bin/false
     {%- endif %}
-    - require:
-      - manila_api_service_dead
-      - manila_site_enabled
+#    - require:
+#      - manila_api_service_dead
+#      - manila_site_enabled
 
 /etc/manila/policy.json:
   file.managed:

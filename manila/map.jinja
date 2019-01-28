@@ -23,7 +23,7 @@
         'engine': {
           'name': 'eventlet'
         },
-        'service': 'apache2',
+        'service': 'manila-api',
         'cacert_file': cacert_file,
     }
 }, merge=pillar.manila.get('api', {})) %}
